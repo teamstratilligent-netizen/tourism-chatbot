@@ -15,19 +15,26 @@ st.set_page_config(
 )
 
 # -------------------------------
-# PROFESSIONAL UI CSS (UPDATED COLORS)
+# FIXED CSS — MOBILE HEADER NOW VISIBLE
 # -------------------------------
 st.markdown("""
 <style>
 
-/* Background color */
-body {
-    background-color: #212121 !important;    /* DARK background */
-    font-family: "Inter", sans-serif;
+/* Ensure full dark background everywhere */
+html, body, .stApp, .block-container, .appview-container, .main, .st-emotion-cache-1jicfl2 {
+    background-color: #212121 !important;
 }
 
-.block-container {
-    padding-top: 3rem !important;
+/* Fix header area being white on mobile */
+header, .st-emotion-cache-18ni7ap, .st-emotion-cache-1dp5vir {
+    background-color: #212121 !important;
+}
+
+/* Extra padding for mobile so header is not cut */
+@media (max-width: 768px) {
+    .block-container {
+        padding-top: 5rem !important;
+    }
 }
 
 /* Chat wrapper */
@@ -39,8 +46,8 @@ body {
 /* USER bubble */
 .user-bubble {
     margin-left: auto;
-    background: #303030;         /* BUBBLE COLOR */
-    color: white;                /* TEXT COLOR */
+    background: #303030;
+    color: white;
     padding: 14px 18px;
     border-radius: 16px 16px 4px 16px;
     max-width: 75%;
@@ -49,11 +56,11 @@ body {
     box-shadow: 0 1px 4px rgba(0,0,0,0.35);
 }
 
-/* ASSISTANT bubble */
+/* BOT bubble */
 .bot-bubble {
     margin-right: auto;
-    background: #303030;          /* BUBBLE COLOR */
-    color: white;                 /* TEXT COLOR */
+    background: #303030;
+    color: white;
     padding: 14px 18px;
     border-radius: 16px 16px 16px 4px;
     max-width: 75%;
@@ -62,7 +69,7 @@ body {
     box-shadow: 0 1px 4px rgba(0,0,0,0.35);
 }
 
-/* Header */
+/* Header text */
 .header-title {
     font-size: 36px;
     font-weight: 700;
@@ -76,6 +83,12 @@ body {
     margin-bottom: 25px;
 }
 
+/* Chat input text color */
+.stChatInput input {
+    color: white !important;
+}
+
+/* Chat input background remains white */
 </style>
 """, unsafe_allow_html=True)
 
@@ -86,9 +99,9 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # -------------------------------
-# HEADER TEXT
+# HEADER
 # -------------------------------
-st.markdown("<div class='header-title'>🌄 Welcome to Jharkhand Tourism</div>", unsafe_allow_html=True)
+st.markdown("<div class='header-title'>🌄 Welcome to Jharkhand</div>", unsafe_allow_html=True)
 st.markdown("<div class='sub-title'>Your personal guide to the land of forests, waterfalls, heritage & adventure.</div>", unsafe_allow_html=True)
 st.divider()
 
@@ -96,11 +109,7 @@ st.divider()
 # RENDER CHAT
 # -------------------------------
 def render_chat(role, content):
-    if role == "user":
-        bubble_class = "user-bubble"
-    else:
-        bubble_class = "bot-bubble"
-
+    bubble_class = "user-bubble" if role == "user" else "bot-bubble"
     st.markdown(
         f"""
         <div class="chat-message">
@@ -127,9 +136,6 @@ if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
     render_chat("user", prompt)
 
-    # -------------------------------
-    # CALL BACKEND API
-    # -------------------------------
     with st.spinner("Exploring Jharkhand for you..."):
         try:
             payload = {
