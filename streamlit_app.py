@@ -56,19 +56,30 @@ header { background-color: #212121 !important; }
     margin-bottom: 25px;
 }
 
-/* Fix header not visible on mobile */
+/* FINAL FIX — Make header always visible on mobile */
 @media (max-width: 768px) {
-    .block-container {
-        padding-top: 120px !important;   /* pushes content down so header appears */
+
+    /* Push entire app down so header is not hidden */
+    .main, .block-container {
+        padding-top: 140px !important;   
     }
 
+    /* Force Streamlit header to stay at the top */
     header {
         position: fixed !important;
-        top: 0;
-        width: 100% !important;
-        z-index: 1000 !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 9999 !important;
         background-color: #212121 !important;
-        padding: 15px 0 !important;
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+
+    /* Prevent content from sliding under header */
+    .stApp {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
     }
 }
 
