@@ -56,33 +56,33 @@ header { background-color: #212121 !important; }
     margin-bottom: 25px;
 }
 
-/* FINAL FIX — Make header always visible on mobile */
+            /* --- FIX: Make header visible on mobile --- */
 @media (max-width: 768px) {
 
-    /* Push entire app down so header is not hidden */
-    .main, .block-container {
-        padding-top: 140px !important;   
+    /* Remove Streamlit's default top padding */
+    .block-container {
+        padding-top: 40px !important;
     }
 
-    /* Force Streamlit header to stay at the top */
-    header {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
+    /* Force header to be visible */
+    .header-title, .sub-title {
+        position: relative !important;
         z-index: 9999 !important;
-        background-color: #212121 !important;
-        padding-top: 12px !important;
-        padding-bottom: 12px !important;
+        padding-top: 20px !important;
+        display: block !important;
+        visibility: visible !important;
     }
 
-    /* Prevent content from sliding under header */
-    .stApp {
-        padding-top: 0 !important;
-        margin-top: 0 !important;
+    /* Remove clipping caused by Streamlit mobile bar */
+    header[data-testid="stHeader"] {
+        position: relative !important;
+        top: 0 !important;
+        z-index: 10000 !important;
+        height: auto !important;
+        padding-top: 10px !important;
     }
 }
-
+            
 </style>
 """, unsafe_allow_html=True)
 
@@ -177,7 +177,7 @@ if user_input:
 
         bot_msg = (
             "Thank you! You're all set. 🙌\n\n"
-            "You can now ask me anything!"
+            "You can now ask me anything about Jharkhand tourism!"
         )
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})
         render_chat("assistant", bot_msg)
