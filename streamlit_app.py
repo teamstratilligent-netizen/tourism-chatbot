@@ -56,6 +56,22 @@ header { background-color: #212121 !important; }
     margin-bottom: 25px;
 }
 
+/* Fix header not visible on mobile */
+@media (max-width: 768px) {
+    .block-container {
+        padding-top: 120px !important;   /* pushes content down so header appears */
+    }
+
+    header {
+        position: fixed !important;
+        top: 0;
+        width: 100% !important;
+        z-index: 1000 !important;
+        background-color: #212121 !important;
+        padding: 15px 0 !important;
+    }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
